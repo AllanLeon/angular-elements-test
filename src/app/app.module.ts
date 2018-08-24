@@ -1,16 +1,28 @@
 import { BrowserModule } from '@angular/platform-browser';
-import { NgModule } from '@angular/core';
+import { NgModule, Injector } from '@angular/core';
+import { createCustomElement } from '@angular/elements';
 
-import { AppComponent } from './app.component';
+import { CountdownTimerComponent } from './countdown-timer/countdown-timer.component';
 
 @NgModule({
   declarations: [
-    AppComponent
+    CountdownTimerComponent,
   ],
   imports: [
     BrowserModule
   ],
-  providers: [],
-  bootstrap: [AppComponent]
+  entryComponents: [
+    CountdownTimerComponent,
+  ],
 })
-export class AppModule { }
+export class AppModule {
+  constructor(private injector: Injector) {
+    const el = createCustomElement(CountdownTimerComponent, { injector: injector });
+    customElements.define('countdown-timer', el);
+  }
+
+  ngDoBootstrap() {
+    // const el = createCustomElement(CountdownTimerComponent, { injector: this.injector });
+    // customElements.define('countdown-timer', el);
+  }
+}
